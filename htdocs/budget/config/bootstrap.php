@@ -37,8 +37,8 @@ use Cake\Core\Configure\Engine\PhpConfig;
 use Cake\Database\Type\StringType;
 use Cake\Database\TypeFactory;
 use Cake\Datasource\ConnectionManager;
-use Cake\Error\ErrorTrap;
-use Cake\Error\ExceptionTrap;
+use Cake\Error\ConsoleErrorHandler;
+use Cake\Error\ErrorHandler;
 use Cake\Http\ServerRequest;
 use Cake\Log\Log;
 use Cake\Mailer\Mailer;
@@ -104,7 +104,7 @@ if (Configure::read('debug')) {
 
 /*
  * Set the default server timezone. Using UTC makes time calculations / conversions easier.
- * Check https://php.net/manual/en/timezones.php for list of valid timezone strings.
+ * Check http://php.net/manual/en/timezones.php for list of valid timezone strings.
  */
 date_default_timezone_set(Configure::read('App.defaultTimezone'));
 
@@ -122,13 +122,17 @@ ini_set('intl.default_locale', Configure::read('App.defaultLocale'));
 /*
  * Register application error and exception handlers.
  */
-(new ErrorTrap(Configure::read('Error')))->register();
-(new ExceptionTrap(Configure::read('Error')))->register();
+$isCli = PHP_SAPI === 'cli';
+if ($isCli) {
+    (new ConsoleErrorHandler(Configure::read('Error')))->register();
+} else {
+    (new ErrorHandler(Configure::read('Error')))->register();
+}
 
 /*
  * Include the CLI bootstrap overrides.
  */
-if (PHP_SAPI === 'cli') {
+if ($isCli) {
     require CONFIG . 'bootstrap_cli.php';
 }
 
@@ -221,9 +225,3 @@ TypeFactory::map('time', StringType::class);
 //Inflector::rules('plural', ['/^(inflect)or$/i' => '\1ables']);
 //Inflector::rules('irregular', ['red' => 'redlings']);
 //Inflector::rules('uninflected', ['dontinflectme']);
-
-// set a custom date and time format
-// see https://book.cakephp.org/4/en/core-libraries/time.html#setting-the-default-locale-and-format-string
-// and https://unicode-org.github.io/icu/userguide/format_parse/datetime/#datetime-format-syntax
-//\Cake\I18n\FrozenDate::setToStringFormat('dd.MM.yyyy');
-//\Cake\I18n\FrozenTime::setToStringFormat('dd.MM.yyyy HH:mm');

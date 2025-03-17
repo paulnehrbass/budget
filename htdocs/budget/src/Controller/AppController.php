@@ -28,6 +28,10 @@ use Cake\Controller\Controller;
  */
 class AppController extends Controller
 {
+    public $paginate = [
+        // Other keys here.
+        'limit' => 5
+    ];
     /**
      * Initialization hook method.
      *
@@ -43,6 +47,22 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth', [
+            'authenticate' => [
+                'Form' => [
+                    'fields' => [
+                        'username' => 'email',
+                        'password' => 'password'
+                    ]
+                ]
+            ],
+            'loginAction' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ],
+            'unauthorizedRedirect' => $this->referer()
+        ]);
+        //$this->Auth->allow(['display', 'view', 'index']);
 
         /*
          * Enable the following component for recommended CakePHP form protection settings.

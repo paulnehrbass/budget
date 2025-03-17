@@ -11,6 +11,7 @@ namespace App\Controller;
  */
 class AccountsController extends AppController
 {
+
     /**
      * Index method
      *

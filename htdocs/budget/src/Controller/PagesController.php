@@ -31,6 +31,7 @@ use Cake\View\Exception\MissingTemplateException;
  */
 class PagesController extends AppController
 {
+
     /**
      * Displays a view
      *
@@ -63,6 +64,18 @@ class PagesController extends AppController
 
         try {
             return $this->render(implode('/', $path));
+        } catch (MissingTemplateException $exception) {
+            if (Configure::read('debug')) {
+                throw $exception;
+            }
+            throw new NotFoundException();
+        }
+    }
+
+    public function root($path)
+    {
+        try {
+            return $this->render($path);
         } catch (MissingTemplateException $exception) {
             if (Configure::read('debug')) {
                 throw $exception;

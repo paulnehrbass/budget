@@ -37,5 +37,8 @@ class AppView extends View
      */
     public function initialize(): void
     {
+        $this->loadHelper('Paginator', ['templates' => 'budget-paginator-templates']);
+        $this->loadHelper('Html');
+        $this->loadHelper('Form', ['templates' => 'budget-control-templates']);
     }
 }

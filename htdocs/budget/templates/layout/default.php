@@ -14,42 +14,68 @@
  * @var \App\View\AppView $this
  */
 
-$cakeDescription = 'CakePHP: the rapid development php framework';
 ?>
-<!DOCTYPE html>
-<html>
+<?= $this->Flash->render() ?>
+<?= $this->element('main') ?>
+
 <head>
-    <?= $this->Html->charset() ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-        <?= $cakeDescription ?>:
-        <?= $this->fetch('title') ?>
-    </title>
-    <?= $this->Html->meta('icon') ?>
 
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'fonts', 'cake']) ?>
+    <?= $this->element('title-meta', array('title' => 'Budget')) ?>
 
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
+    <?= $this->element('head-css') ?>
+
 </head>
-<body>
-    <nav class="top-nav">
-        <div class="top-nav-title">
-            <a href="<?= $this->Url->build('/') ?>"><span>Cake</span>PHP</a>
+
+<?= $this->element('body') ?>
+
+<!-- Begin page -->
+<div id="layout-wrapper">
+
+    <?= $this->element('menu') ?>
+
+    <!-- ============================================================== -->
+    <!-- Start right Content here -->
+    <!-- ============================================================== -->
+    <div class="main-content">
+
+        <div class="page-content">
+            <div class="container-fluid">
+
+
+
+                <div class="row">
+                    <div class="col-xl-12">
+                        <?= $this->fetch('content') ?>
+                    </div>
+
+                </div>
+                <!-- end row -->
+
+
+            </div>
+            <!-- container-fluid -->
         </div>
-        <div class="top-nav-links">
-            <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/">Documentation</a>
-            <a target="_blank" rel="noopener" href="https://api.cakephp.org/">API</a>
-        </div>
-    </nav>
-    <main class="main">
-        <div class="container">
-            <?= $this->Flash->render() ?>
-            <?= $this->fetch('content') ?>
-        </div>
-    </main>
-    <footer>
-    </footer>
+        <!-- End Page-content -->
+        <?= $this->element('footer') ?>
+    </div>
+    <!-- end main content-->
+
+</div>
+<!-- END layout-wrapper -->
+
+<?= $this->element('right-sidebar') ?>
+
+<?= $this->element('vendor-scripts') ?>
+
+<!-- apexcharts -->
+<script src="/libs/apexcharts/apexcharts.min.js"></script>
+
+<!-- dashboard init -->
+<script src="/js/pages/dashboard.init.js"></script>
+
+<!-- App js -->
+<script src="/js/app.js"></script>
 </body>
+
 </html>
+
